@@ -12,22 +12,23 @@ vector<Circle> circles;
 vector<Ray> rays;
 vector<Segment> segments;
 
-void error() {
-	cerr << "Wrong format!" << endl;
-	exit(1);
-}
-
-void add_graph(ifstream &in) {
+void add_graph(ifstream& in) {
 	int N;
 	char type;
 	in >> N;
+	if (!in) {
+		error_type1();
+	}
 	while (N--) {
 		in >> type;
 		if (type == 'L') {
 			double x1, y1, x2, y2;
 			in >> x1 >> y1 >> x2 >> y2;
 			if (!in) {
-				error();
+				error_type1();
+			}
+			else if (type2_check(x1, y1, x2, y2)) {
+				error_type2();
 			}
 			lines.push_back(Line(x1, y1, x2, y2));
 		}
@@ -35,7 +36,10 @@ void add_graph(ifstream &in) {
 			double x, y, r;
 			in >> x >> y >> r;
 			if (!in) {
-				error();
+				error_type1();
+			}
+			else if (r < 0) {
+				error_type4();
 			}
 			circles.push_back(Circle(x, y, r));
 		}
@@ -43,7 +47,10 @@ void add_graph(ifstream &in) {
 			double x1, y1, x2, y2;
 			in >> x1 >> y1 >> x2 >> y2;
 			if (!in) {
-				error();
+				error_type1();
+			}
+			else if (type2_check(x1, y1, x2, y2)) {
+				error_type2();
 			}
 			rays.push_back(Ray(x1, y1, x2, y2));
 		}
@@ -51,12 +58,15 @@ void add_graph(ifstream &in) {
 			double x1, y1, x2, y2;
 			in >> x1 >> y1 >> x2 >> y2;
 			if (!in) {
-				error();
+				error_type1();
+			}
+			else if (type2_check(x1, y1, x2, y2)) {
+				error_type2();
 			}
 			segments.push_back(Segment(x1, y1, x2, y2));
 		}
 		else {
-			error();
+			error_type1();
 		}
 	}
 }
@@ -122,6 +132,7 @@ void intersect() {
 int main(int argc, char* argv[]) {
 	ifstream in;
 	ofstream out;
+	command_check(argc, argv);
 	for (int i = 0; i <= argc - 1; i++) {
 		if (strcmp(argv[i], "-i") == 0) {
 			in.open(argv[i + 1]);

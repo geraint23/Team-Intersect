@@ -90,7 +90,10 @@ public:
 			if (this->onRay(p) && otherRay.onRay(p)) {
 				nodes.insert(p);
 			}
-			/*cout << x << "," << y << endl;*/
+		} else if (b == otherRay.b) {
+			if (onRay(Point(otherRay.x1, otherRay.y1)) || otherRay.onRay(Point(x1, y1))) {
+				error_type3();
+			}
 		}
 	}
 
@@ -114,6 +117,9 @@ public:
 				nodes.insert(p);
 			}
 			/*cout << x << "," << y << endl;*/
+		}
+		else if (b == otherline.b) {
+				error_type3();
 		}
 	}
 };

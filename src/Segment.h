@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <Windows.h>
+#include "error.h"
 
 class Segment {
 public:
@@ -58,6 +59,9 @@ public:
 			}
 			/*cout << x << "," << y << endl;*/
 		}
+		else if (b == otherLine.b) {
+				error_type3();
+		}
 	}
 
 	void preprocess(Segment otherSegment) {	// ABÊÇthis£¬CDÊÇotherSegment
@@ -93,13 +97,11 @@ public:
 				nodes.insert(B);
 			}
 			else {
-				cout << "infinite nodes:type 1" << endl;
-				cout << cnt << endl;
+				error_type3();
 			}
 		}
 		else if (cnt == 3 || cnt == 4) {
-			cout << "infinite nodes:type 2" << endl;
-			cout << cnt << endl;
+			error_type3();
 		}
 	}
 
@@ -110,7 +112,7 @@ public:
 		if (onSegment(rayStart)) {
 			if (rayStart.equals(A)) {
 				if (otherRay.onRay(B)) {
-					cout << "infinite nodes:type 3" << endl;
+					error_type3();
 				}
 				else {
 					nodes.insert(rayStart);
@@ -118,19 +120,19 @@ public:
 			}
 			else if (rayStart.equals(B)) {
 				if (otherRay.onRay(A)) {
-					cout << "infinite nodes:type 3" << endl;
+					error_type3();
 				}
 				else {
 					nodes.insert(rayStart);
 				}
 			}
 			else {
-				cout << "infinite nodes:type 4" << endl;
+				error_type3();
 			}
 		}
 		else {
 			if (otherRay.onRay(A)) {
-				cout << "infinite nodes:type 5" << endl;
+				error_type3();
 			}
 		}
 	}

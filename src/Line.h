@@ -3,6 +3,7 @@
 #include <cmath>
 #include <set>
 #include "Point.h"
+#include "error.h"
 
 using namespace std;
 
@@ -41,6 +42,9 @@ public:
 			}
 			nodes.insert(Point(trans(x), trans(y)));
 			/*cout << x << "," << y << endl;*/
+		}
+		else if (b == otherLine.b) {
+			error_type3();
 		}
 	}
 

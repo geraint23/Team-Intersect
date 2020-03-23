@@ -20,6 +20,9 @@ public:
 	}
 
 	void intersect_C(Circle otherCircle) {
+		if (x == otherCircle.x && y == otherCircle.y && r == otherCircle.r) {
+			error_type3();
+		}
 		double center_d = sqrt((x - otherCircle.x) * (x - otherCircle.x)
 			+ (y - otherCircle.y) * (y - otherCircle.y));
 		if (center_d != 0) {
