@@ -17,18 +17,20 @@ void add_graph(ifstream& in) {
 	char type;
 	in >> N;
 	if (!in) {
-		error_type1();
+		error_type1(1);
 	}
-	while (N--) {
-		in >> type;
+	while (in >> type) {
 		if (type == 'L') {
 			double x1, y1, x2, y2;
 			in >> x1 >> y1 >> x2 >> y2;
 			if (!in) {
-				error_type1();
+				error_type1(2);
 			}
 			else if (type2_check(x1, y1, x2, y2)) {
 				error_type2();
+			}
+			else if (coor_overlim(x1, y1, x2, y2)) {
+				error_type6();
 			}
 			lines.push_back(Line(x1, y1, x2, y2));
 		}
@@ -36,10 +38,13 @@ void add_graph(ifstream& in) {
 			double x, y, r;
 			in >> x >> y >> r;
 			if (!in) {
-				error_type1();
+				error_type1(2);
 			}
 			else if (r < 0) {
 				error_type4();
+			}
+			else if (coor_overlim(x, y, r)) {
+				error_type6();
 			}
 			circles.push_back(Circle(x, y, r));
 		}
@@ -47,10 +52,13 @@ void add_graph(ifstream& in) {
 			double x1, y1, x2, y2;
 			in >> x1 >> y1 >> x2 >> y2;
 			if (!in) {
-				error_type1();
+				error_type1(2);
 			}
 			else if (type2_check(x1, y1, x2, y2)) {
 				error_type2();
+			}
+			else if (coor_overlim(x1, y1, x2, y2)) {
+				error_type6();
 			}
 			rays.push_back(Ray(x1, y1, x2, y2));
 		}
@@ -58,16 +66,23 @@ void add_graph(ifstream& in) {
 			double x1, y1, x2, y2;
 			in >> x1 >> y1 >> x2 >> y2;
 			if (!in) {
-				error_type1();
+				error_type1(2);
 			}
 			else if (type2_check(x1, y1, x2, y2)) {
 				error_type2();
 			}
+			else if (coor_overlim(x1, y1, x2, y2)) {
+				error_type6();
+			}
 			segments.push_back(Segment(x1, y1, x2, y2));
 		}
 		else {
-			error_type1();
+			error_type1(3);
 		}
+		N--;
+	}
+	if (N) {
+		error_type1(4);
 	}
 }
 
@@ -133,14 +148,8 @@ int main(int argc, char* argv[]) {
 	ifstream in;
 	ofstream out;
 	command_check(argc, argv);
-	for (int i = 0; i <= argc - 1; i++) {
-		if (strcmp(argv[i], "-i") == 0) {
-			in.open(argv[i + 1]);
-		}
-		else if (strcmp(argv[i], "-o") == 0) {
-			out.open(argv[i + 1]);
-		}
-	}
+	in.open(argv[2]);
+	out.open(argv[4]);
 	add_graph(in);
 	intersect();
 	/*cout << "All nodes:" << endl;
